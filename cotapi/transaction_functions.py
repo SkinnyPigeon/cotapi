@@ -27,3 +27,13 @@ class TransactionFunctions:
                                 }}).sort("date", direction).
                             allow_disk_use(True))
         return transactions
+
+    def retrieve_last_x_transactions(self, direction: int, limit: int):
+        return list(self._collection.find().
+                    sort("date", direction).
+                    limit(limit).allow_disk_use(True)
+                    )
+
+    def transaction_by_id(self, tx_hash: str):
+        transaction = self._collection.find_one({"_id": tx_hash})
+        return transaction
