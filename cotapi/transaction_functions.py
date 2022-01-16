@@ -37,3 +37,23 @@ class TransactionFunctions:
     def transaction_by_id(self, tx_hash: str):
         transaction = self._collection.find_one({"_id": tx_hash})
         return transaction
+
+    def calculate_outgoings(self,
+                            start: datetime.datetime = datetime.datetime(1970, 1, 1),
+                            end: datetime.datetime = datetime.datetime.now()):
+        epoch = datetime.datetime(1970, 1, 1)
+        start_utc = (start - epoch).total_seconds()
+        end_utc = (end - epoch).total_seconds()
+        result = list(self._collection.aggregate([{"$match": {
+                                                   "sender": self._address,
+                                                   "date": {
+                                                       "$gte": start_utc,
+                                                       "$lte": end_utc}}},
+                                                  {"$group": {
+                                                      "_id": {
+                                                          "person": "$sender"},
+                                                      "total": {
+                                                          "$sum": "$amount"}}}
+                                                  ]))[0]
+        self.outgoings = result['total']
+        return result['total']

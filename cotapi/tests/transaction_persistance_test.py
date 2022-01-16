@@ -7,6 +7,8 @@ if "/Users/euanblackledge/Desktop/code/cotapi/cotapi" not in sys.path:
 from transaction_persistance import TransactionPersistance
 import datetime
 
+address = "51dbd2feecb8c9e3b5c88129da88156d738d00d57bf4524cc780221c4e414ffc9372b00ad7d75679032d928776b044d40d5febb783d8ac9b241b7c0b1cad77de9b699c23"
+
 
 def test_can_save_transactions_to_db():
     epoch = datetime.datetime(1970, 1, 1)
@@ -18,7 +20,7 @@ def test_can_save_transactions_to_db():
                             for _ in range(20))),
             "amount": 12.2,
             "fee": 1,
-            "sender": 'foo',
+            "sender": address,
             "receiver": "bar",
             "date": utc,
             "type": "transaction",
@@ -31,7 +33,7 @@ def test_can_save_transactions_to_db():
             "amount": 12.2,
             "fee": 1,
             "sender": 'foo',
-            "receiver": "bar",
+            "receiver": address,
             "date": utc,
             "type": "transaction",
             "description": "transaction",

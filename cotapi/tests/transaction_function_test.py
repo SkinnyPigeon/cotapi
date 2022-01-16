@@ -1,5 +1,4 @@
 import sys
-# import pytest
 
 if "/Users/euanblackledge/Desktop/code/cotapi/cotapi" not in sys.path:
     sys.path += ["/Users/euanblackledge/Desktop/code/cotapi/cotapi"]
@@ -24,10 +23,12 @@ def test_can_retrieve_all_transactions():
                                               "transactionDetails"
                                               ])
 
+
 def test_can_limit_number_of_transactions():
     tf = TransactionFunctions(address, "test")
     trans = tf.retrieve_last_x_transactions(-1, 1)
     assert len(trans) == 1
+
 
 def test_can_retrieve_transaction_by_hash():
     tp = TransactionPersistance("test", [{"_id": "abc", "amount": 123}])
@@ -35,6 +36,12 @@ def test_can_retrieve_transaction_by_hash():
     tf = TransactionFunctions(address, "test")
     tran = tf.transaction_by_id("abc")
     assert tran == {"_id": "abc", "amount": 123}
+
+
+def test_can_calculate_outgoings():
+    tf = TransactionFunctions(address, "test")
+    outgoings = tf.calculate_outgoings()
+    assert outgoings > 0
 
 
 sys.path.remove("/Users/euanblackledge/Desktop/code/cotapi/cotapi")
