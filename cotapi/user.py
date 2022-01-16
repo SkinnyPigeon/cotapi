@@ -1,6 +1,18 @@
 from pymongo import MongoClient
 from typing import Optional
 from passlib.context import CryptContext
+from pydantic import BaseModel
+
+
+class User(BaseModel):
+    username: str
+    disabled: Optional[bool] = None
+    address: str
+
+
+class UserInDB(User):
+    key: str
+
 
 class UserPersistance:
     def __init__(self, username: str,
@@ -29,3 +41,14 @@ class UserPersistance:
     def delete_user(self):
         result = self._collection.delete_one({"username": self.username})
         return result
+
+    def load_user(self):
+        user_result = self._collection.find_one({"username": self.username})
+        if user_result:
+            user = {
+                'username': user_result['username'],
+                'key': user_result['key'],
+                'address': user_result['address'],
+                'disabled': user_result['disabled']
+            }
+            return UserInDB(**user)
