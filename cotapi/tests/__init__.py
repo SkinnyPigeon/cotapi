@@ -5,6 +5,7 @@ import datetime
 import random
 import string
 from transaction_persistance import TransactionPersistance
+from user import UserPersistance
 
 address = "51dbd2feecb8c9e3b5c88129da88156d738d00d57bf4524cc780221c4e414ffc9372b00ad7d75679032d928776b044d40d5febb783d8ac9b241b7c0b1cad77de9b699c23"
 epoch = datetime.datetime(1970, 1, 1)
