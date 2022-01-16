@@ -4,17 +4,19 @@ import pytest
 if "/Users/euanblackledge/Desktop/code/cotapi/cotapi" not in sys.path:
     sys.path += ["/Users/euanblackledge/Desktop/code/cotapi/cotapi"]
 
-import login, user
+import login
+import user
+
 
 @pytest.mark.skip("Relies on having the same password hash")
 def test_verify_works_with_valid_password():
     verified = login.verify_password('password', '$2b$12$XTROw3rZ8/pHzFjIalDbeOSA1neYmSI5ga9FBjMxCVeUZJQJjxw..')
-    assert verified == True
+    assert verified is True
 
 
 def test_verify_catches_invalid_password():
     verified = login.verify_password('not_password', '$2b$12$U0eLT6orXi.JdvJudDVJuuM1qvDyEmjINPq1b4YPa2pVKPxUcFY..')
-    assert verified == False
+    assert verified is False
 
 
 @pytest.mark.skip("Relies on having the same password hash")
@@ -27,5 +29,12 @@ def test_authenticate_user_returns_user():
                      'key': '$2b$12$XTROw3rZ8/pHzFjIalDbeOSA1neYmSI5ga9FBjMxCVeUZJQJjxw..'
                      }
     assert authenticated_user == user.UserInDB(**expected_user)
+
+
+def test_token_created():
+    token = login.create_access_token({'sub': 'euan'})
+    assert token[:2] == 'ey'
+    assert len(token) == 123
+
 
 sys.path.remove("/Users/euanblackledge/Desktop/code/cotapi/cotapi")

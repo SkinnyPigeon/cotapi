@@ -1,6 +1,9 @@
 import os
 from passlib.context import CryptContext
 from user import UserPersistance as UP
+from typing import Optional
+from datetime import datetime, timedelta
+from jose import jwt
 
 SECRET_KEY = os.getenv('SECRET_KEY')
 ALGORITHM = "HS256"
@@ -21,3 +24,13 @@ def authenticate_user(username: str, password: str):
     if not verify_password(password, user.key):
         return False
     return user
+
+def create_access_token(data: dict, expires_delta: Optional[timedelta] = None):
+    to_encode = data.copy()
+    if expires_delta:
+        expire = datetime.utcnow() + expires_delta
+    else:
+        expire = datetime.utcnow() + timedelta(minutes=15)
+    to_encode.update({"exp": expire})
+    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    return encoded_jwt
