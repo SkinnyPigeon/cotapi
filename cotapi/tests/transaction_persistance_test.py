@@ -1,13 +1,17 @@
 import sys
-import random  
-import string  
+import random
+import string
 if "/Users/euanblackledge/Desktop/code/cotapi/cotapi" not in sys.path:
     sys.path += ["/Users/euanblackledge/Desktop/code/cotapi/cotapi"]
 
 from transaction_persistance import TransactionPersistance
+import datetime
 
 
 def test_can_save_transactions_to_db():
+    epoch = datetime.datetime(1970, 1, 1)
+    now = datetime.datetime.now()
+    utc = (now - epoch).total_seconds()
     transactions = [
         {
             "_id": "".join((random.choice(string.ascii_lowercase)
@@ -16,7 +20,7 @@ def test_can_save_transactions_to_db():
             "fee": 1,
             "sender": 'foo',
             "receiver": "bar",
-            "date": "12/12/12",
+            "date": utc,
             "type": "transaction",
             "description": "transaction",
             "transactionDetails": {}
@@ -28,7 +32,7 @@ def test_can_save_transactions_to_db():
             "fee": 1,
             "sender": 'foo',
             "receiver": "bar",
-            "date": "12/12/12",
+            "date": utc,
             "type": "transaction",
             "description": "transaction",
             "transactionDetails": {}
