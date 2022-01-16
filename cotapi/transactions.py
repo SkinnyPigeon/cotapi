@@ -1,5 +1,6 @@
 import requests
 
+
 class Transactions:
     def __init__(self, address):
         self._url = 'https://staycoti.betternode.net/transaction/addressTransactions'
