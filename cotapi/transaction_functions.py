@@ -77,3 +77,10 @@ class TransactionFunctions:
                                                   ]))[0]
         self.income = result['total']
         return result['total']
+
+    def calculate_balance(self,
+                          start: datetime.datetime = datetime.datetime(1970, 1, 1),
+                          end: datetime.datetime = datetime.datetime.now()):
+        outgoings = self.calculate_outgoings(start, end)
+        income = self.calculate_income(start, end)
+        return income - outgoings
