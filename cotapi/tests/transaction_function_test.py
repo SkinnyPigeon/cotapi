@@ -44,4 +44,10 @@ def test_can_calculate_outgoings():
     assert outgoings > 0
 
 
+def test_can_calculate_income():
+    tf = TransactionFunctions(address, "test")
+    income = tf.calculate_income()
+    assert income > 0
+
+
 sys.path.remove("/Users/euanblackledge/Desktop/code/cotapi/cotapi")

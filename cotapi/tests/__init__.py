@@ -26,7 +26,7 @@ transactions = [
     {
         "_id": "".join((random.choice(string.ascii_lowercase)
                         for _ in range(20))),
-        "amount": 12.2,
+        "amount": 20,
         "fee": 1,
         "sender": 'foo',
         "receiver": address,
