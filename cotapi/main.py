@@ -1,9 +1,9 @@
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from login import Token, authenticate_user, ACCESS_TOKEN_EXPIRE_MINUTES, \
-                  create_access_token
+                  create_access_token, get_current_active_user
 from datetime import timedelta
-from user import RegisterUser, UserPersistance
+from user import RegisterUser, UserPersistance, User
 
 app = FastAPI()
 
@@ -33,3 +33,9 @@ def register_user(user: RegisterUser):
         return {"message": f"{user.username} successfully registered"}
     else:
         return {"message": f"{user.username} already exists in database"}
+
+
+@app.get("/users/profile", response_model=User, tags=['USERS'])
+async def read_my_details(current_user:
+                          User = Depends(get_current_active_user)):
+    return current_user
