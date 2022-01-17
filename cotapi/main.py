@@ -17,7 +17,9 @@ from request_fields import SavedTransactionRequestBody, \
                            IncomeResponse, \
                            OutgoingsResponse, \
                            BalanceResponse, \
-                           UpdatedTransactionResponse
+                           UpdatedTransactionResponse, \
+                           IndividualTransaction, \
+                           SavedTransactionsResponse
 
 app = FastAPI()
 
@@ -74,7 +76,8 @@ def save_my_transactions(current_user:
 
 
 @app.post("/transactions/saved",
-          tags=['TRANSACTIONS'])
+          tags=['TRANSACTIONS'],
+          response_model=SavedTransactionsResponse)
 def view_saved_transaction_data(body: SavedTransactionRequestBody,
                                 current_user:
                                 User = Depends(get_current_active_user)):
@@ -82,7 +85,9 @@ def view_saved_transaction_data(body: SavedTransactionRequestBody,
     return tf.retrieve_transactions(body.start, body.end, body.direction)
 
 
-@app.post("/transactions/recent", tags=['TRANSACTIONS'])
+@app.post("/transactions/recent",
+          tags=['TRANSACTIONS'],
+          response_model=SavedTransactionsResponse)
 def view_x_number_of_transactions(body: XNumberOfTransactionsRequest,
                                   current_user:
                                   User = Depends(get_current_active_user)):
@@ -91,7 +96,9 @@ def view_x_number_of_transactions(body: XNumberOfTransactionsRequest,
     return transactions
 
 
-@app.post("/transactions/hash", tags=['TRANSACTIONS'])
+@app.post("/transactions/hash",
+          tags=['TRANSACTIONS'],
+          response_model=IndividualTransaction)
 def search_by_transaction_hash(body: TransactionByHashRequest,
                                current_user:
                                User = Depends(get_current_active_user)):
