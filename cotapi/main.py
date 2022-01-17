@@ -6,6 +6,9 @@ from login import Token, authenticate_user, ACCESS_TOKEN_EXPIRE_MINUTES, \
 from user import RegisterUser, UserPersistance, User
 from transactions import Transactions
 from transaction_persistance import TransactionPersistance
+from transaction_functions import TransactionFunctions
+
+from request_fields import SavedTransactionRequestBody
 
 app = FastAPI()
 
@@ -57,3 +60,12 @@ def save_my_transactions(current_user:
                 f"Successfully inserted {tp.get_update_count()} new records"}
     except Exception as e:
         return {"error": str(e)}
+
+
+@app.post("/transactions/saved",
+          tags=['TRANSACTIONS'])
+def view_saved_transaction_data(body: SavedTransactionRequestBody,
+                                current_user:
+                                User = Depends(get_current_active_user)):
+    tf = TransactionFunctions(current_user.address, current_user.username)
+    return tf.retrieve_transactions(body.start, body.end, body.direction)
