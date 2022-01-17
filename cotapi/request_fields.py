@@ -3,6 +3,10 @@ from pydantic import BaseModel
 from datetime import datetime, timedelta
 
 
+class UpdatedTransactionResponse(BaseModel):
+    detail: str = "Successfully inserted 10 new records"
+    
+
 class SavedTransactionRequestBody(BaseModel):
     start: Optional[datetime] = datetime.now() - timedelta(days=2)
     end: Optional[datetime] = datetime.now()

@@ -16,7 +16,8 @@ from request_fields import SavedTransactionRequestBody, \
                            BalanceRequest, \
                            IncomeResponse, \
                            OutgoingsResponse, \
-                           BalanceResponse
+                           BalanceResponse, \
+                           UpdatedTransactionResponse
 
 app = FastAPI()
 
@@ -54,7 +55,9 @@ async def read_my_details(current_user:
     return current_user
 
 
-@app.get("/transactions/update", tags=['TRANSACTIONS'])
+@app.get("/transactions/update",
+         tags=['TRANSACTIONS'],
+         response_model=UpdatedTransactionResponse)
 def save_my_transactions(current_user:
                          User = Depends(get_current_active_user)):
     try:
