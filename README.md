@@ -30,7 +30,7 @@ If successful, three containers should be created and begin running
 
 The api schema can be found at http://localhost:8000/openapi.json.
 
-With the containers running, the interactive documentation can be found at http://localhost:8000/docs[^1]. **First-time users must call** http://localhost:8000/users/signup in order to create a user within the system. This user can then authenticate themselves by clicking on the ***Authorize*** button or any of the locks on the right hand of the end point name plates.
+With the containers running, the interactive documentation can be found at http://localhost:8000/docs [^1]. **First-time users must call** http://localhost:8000/users/signup in order to create a user within the system. This user can then authenticate themselves by clicking on the ***Authorize*** button or any of the locks on the right hand of the end point name plates.
 
 Once authenticated, the system is ready to save some transactions for later interaction. To achieve this, the user should call http://localhost:8000/transactions/update. This will call the COTI api and gather all of the transactions for the user's given address. They will then be saved to a MongoDB instance running in one of the other containers. This process takes a little while (~60 seconds). With the transactions saved, the user can now interact with their data via the following series of endpoints.
 
