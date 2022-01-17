@@ -24,7 +24,57 @@ from request_fields import SavedTransactionRequestBody, \
                            SignupResponse, \
                            ProfileResponse
 
-app = FastAPI()
+description = """
+This is an API allowing for faster viewing and \
+    interaction with data harvested from the [COTI](https://explorer.coti.io/) platform
+
+## USAGE
+
+New users must register via the **/users/signup** end point. \
+    A unique username, a password, and a wallet address must be supplied.
+
+Once registered, users can authenticate themselves \
+    and gain access to the other endpoints.
+
+If not using the API via the FastAPI docs page, \
+    users must call the **/token** end point to get a JWT. \
+    This JWT should then be passed as part of request headers \
+        to the other end points
+"""
+
+contact = {
+    "name": "Euan Blackledge",
+    "email": "euanblackledge@gmail.com",
+    "url": "https://github.com/SkinnyPigeon"
+}
+
+tags_metadata = [
+    {
+        "name": "TOKEN",
+        "description": "Allows valid users to authenticate \
+            themselves to the system and receive a JWT"
+    },
+    {
+        "name": "USERS",
+        "description": "Handles sign up to the system \
+            as well as view profile details"
+    },
+    {
+        "name": "TRANSACTIONS",
+        "description": "Allows the storing and viewing of records"
+    },
+    {
+        "name": "BALANCE",
+        "description": "Calculate income and expenditure over a given period"
+    }
+]
+
+app = FastAPI(
+    title="CotAPI",
+    description=description,
+    contact=contact,
+    openapi_tags=tags_metadata
+)
 
 
 @app.post("/token", response_model=TokenResponse, tags=['TOKEN'])
