@@ -13,7 +13,10 @@ from request_fields import SavedTransactionRequestBody, \
                            TransactionByHashRequest, \
                            IncomeRequest, \
                            OutgoingsRequest, \
-                           BalanceRequest
+                           BalanceRequest, \
+                           IncomeResponse, \
+                           OutgoingsResponse, \
+                           BalanceResponse
 
 app = FastAPI()
 
@@ -85,7 +88,6 @@ def view_x_number_of_transactions(body: XNumberOfTransactionsRequest,
     return transactions
 
 
-
 @app.post("/transactions/hash", tags=['TRANSACTIONS'])
 def search_by_transaction_hash(body: TransactionByHashRequest,
                                current_user:
@@ -99,21 +101,23 @@ def search_by_transaction_hash(body: TransactionByHashRequest,
                           please check it is correct", "tx_hash": body.tx_hash}
 
 
-@app.post("/balance/outgoings", tags=['BALANCE'])
+@app.post("/balance/outgoings",
+          tags=['BALANCE'],
+          response_model=OutgoingsResponse)
 def view_outgoings(body: OutgoingsRequest,
                    current_user: User = Depends(get_current_active_user)):
     tf = TransactionFunctions(current_user.address, current_user.username)
     return {"outgoings": tf.calculate_outgoings(body.start, body.end)}
 
 
-@app.post("/balance/income", tags=['BALANCE'])
+@app.post("/balance/income", tags=['BALANCE'], response_model=IncomeResponse)
 def view_income(body: IncomeRequest,
                 current_user: User = Depends(get_current_active_user)):
     tf = TransactionFunctions(current_user.address, current_user.username)
     return {"income": tf.calculate_income(body.start, body.end)}
 
 
-@app.post("/balance/", tags=['BALANCE'])
+@app.post("/balance/", tags=['BALANCE'], response_model=BalanceResponse)
 def view_balance(body: BalanceRequest,
                  current_user: User = Depends(get_current_active_user)):
     tf = TransactionFunctions(current_user.address, current_user.username)

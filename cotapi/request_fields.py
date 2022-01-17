@@ -23,11 +23,25 @@ class OutgoingsRequest(BaseModel):
     end: Optional[datetime] = datetime.now()
 
 
+class OutgoingsResponse(BaseModel):
+    outgoings: float = 2839182.1389
+
+
 class IncomeRequest(BaseModel):
     start: Optional[datetime] = datetime(1970, 1, 1)
     end: Optional[datetime] = datetime.now()
 
 
+class IncomeResponse(BaseModel):
+    income: float = 7287328.123
+
+
 class BalanceRequest(BaseModel):
     start: Optional[datetime] = datetime(1970, 1, 1)
     end: Optional[datetime] = datetime.now()
+
+
+class BalanceResponse(BaseModel):
+    balance: float = 4448145.9841
+    income: float = 7287328.123
+    outgoings: float = 2839182.1389
