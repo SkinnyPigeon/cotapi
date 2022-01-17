@@ -12,3 +12,7 @@ class SavedTransactionRequestBody(BaseModel):
 class XNumberOfTransactionsRequest(BaseModel):
     direction: int = -1
     limit: int = 3
+
+
+class TransactionByHashRequest(BaseModel):
+    tx_hash: str = "154859b2f3b07e901e17070a034a15fa3dba0cf1109dfd0680b0ac1d43b4caea"

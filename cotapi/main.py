@@ -9,7 +9,8 @@ from transaction_persistance import TransactionPersistance
 from transaction_functions import TransactionFunctions
 
 from request_fields import SavedTransactionRequestBody, \
-                           XNumberOfTransactionsRequest
+                           XNumberOfTransactionsRequest, \
+                           TransactionByHashRequest
 
 app = FastAPI()
 
@@ -79,3 +80,17 @@ def view_x_number_of_transactions(body: XNumberOfTransactionsRequest,
     tf = TransactionFunctions(current_user.address, current_user.username)
     transactions = tf.retrieve_last_x_transactions(body.direction, body.limit)
     return transactions
+
+
+
+@app.post("/transactions/hash", tags=['TRANSACTIONS'])
+def search_by_transaction_hash(body: TransactionByHashRequest,
+                               current_user:
+                               User = Depends(get_current_active_user)):
+    tf = TransactionFunctions(current_user.address, current_user.username)
+    transaction = tf.transaction_by_id(body.tx_hash)
+    if transaction:
+        return transaction
+    else:
+        return {"error": "unable to find transaction with hash. \
+                          please check it is correct", "tx_hash": body.tx_hash}
