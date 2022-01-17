@@ -26,7 +26,8 @@ from request_fields import SavedTransactionRequestBody, \
 
 description = """
 This is an API allowing for faster viewing and \
-    interaction with data harvested from the [COTI](https://explorer.coti.io/) platform
+    interaction with data harvested from the \
+    [COTI](https://explorer.coti.io/) platform
 
 ## USAGE
 
