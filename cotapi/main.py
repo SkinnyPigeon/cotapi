@@ -8,7 +8,8 @@ from transactions import Transactions
 from transaction_persistance import TransactionPersistance
 from transaction_functions import TransactionFunctions
 
-from request_fields import SavedTransactionRequestBody
+from request_fields import SavedTransactionRequestBody, \
+                           XNumberOfTransactionsRequest
 
 app = FastAPI()
 
@@ -69,3 +70,12 @@ def view_saved_transaction_data(body: SavedTransactionRequestBody,
                                 User = Depends(get_current_active_user)):
     tf = TransactionFunctions(current_user.address, current_user.username)
     return tf.retrieve_transactions(body.start, body.end, body.direction)
+
+
+@app.post("/transactions/recent", tags=['TRANSACTIONS'])
+def view_x_number_of_transactions(body: XNumberOfTransactionsRequest,
+                                  current_user:
+                                  User = Depends(get_current_active_user)):
+    tf = TransactionFunctions(current_user.address, current_user.username)
+    transactions = tf.retrieve_last_x_transactions(body.direction, body.limit)
+    return transactions
