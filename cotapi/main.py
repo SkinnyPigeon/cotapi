@@ -1,9 +1,11 @@
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
+from datetime import timedelta
 from login import Token, authenticate_user, ACCESS_TOKEN_EXPIRE_MINUTES, \
                   create_access_token, get_current_active_user
-from datetime import timedelta
 from user import RegisterUser, UserPersistance, User
+from transactions import Transactions
+from transaction_persistance import TransactionPersistance
 
 app = FastAPI()
 
@@ -39,3 +41,19 @@ def register_user(user: RegisterUser):
 async def read_my_details(current_user:
                           User = Depends(get_current_active_user)):
     return current_user
+
+
+@app.get("/transactions/update", tags=['TRANSACTIONS'])
+def save_my_transactions(current_user:
+                         User = Depends(get_current_active_user)):
+    try:
+        transactions = Transactions(current_user.address)
+        transactions_to_save = transactions.return_transactions()
+        tp = TransactionPersistance(current_user.username,
+                                    transactions_to_save
+                                    )
+        tp.save_transactions()
+        return {"detail":
+                f"Successfully inserted {tp.get_update_count()} new records"}
+    except Exception as e:
+        return {"error": str(e)}
