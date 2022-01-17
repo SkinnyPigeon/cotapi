@@ -14,6 +14,12 @@ class UserInDB(User):
     key: str
 
 
+class RegisterUser(BaseModel):
+    username: str
+    password: str
+    address: str
+
+
 class UserPersistance:
     def __init__(self, username: str,
                  password: Optional[str] = None,
