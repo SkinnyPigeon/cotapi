@@ -1,0 +1,44 @@
+version: '3.1'
+
+services:
+  mongo:
+    container_name: cotmongo
+    build:
+      context: .
+      dockerfile: DockerfileMongo
+    image: cotmongo_image
+    restart: always
+    stdin_open: true
+    tty: true
+    networks:
+      - backend
+    ports:
+      - "27017:27017"
+  cotapi:
+    container_name: cotapi
+    build:
+      context: .
+      dockerfile: DockerfileAPI
+    image: cotapi_image
+    restart: always
+    stdin_open: true
+    tty: true
+    networks:
+      - backend
+    ports:
+      - "8000:8000"
+  cron:
+    container_name: cron
+    build:
+      context: .
+      dockerfile: DockerfileCall
+    image: cron_image
+    restart: always
+    stdin_open: true
+    tty: true
+    networks:
+      - backend
+
+networks:
+  backend:
+    name: backend

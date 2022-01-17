@@ -1,0 +1,5 @@
+SHELL=/bin/bash
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+MAILTO=root
+@reboot source /root/.profile; /bin/bash /root/call_api.sh
+0 0 * * * source /root/.profile; /bin/bash /root/call_api.sh

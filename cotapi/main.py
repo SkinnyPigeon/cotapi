@@ -3,7 +3,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from datetime import timedelta
 from login import authenticate_user, ACCESS_TOKEN_EXPIRE_MINUTES, \
                   create_access_token, get_current_active_user
-from user import RegisterUser, UserPersistance, User
+from user import UserPersistance, User
 from transactions import Transactions
 from transaction_persistance import TransactionPersistance
 from transaction_functions import TransactionFunctions
@@ -21,6 +21,7 @@ from request_fields import SavedTransactionRequestBody, \
                            IndividualTransaction, \
                            SavedTransactionsResponse, \
                            TokenResponse, \
+                           SignUpRequest, \
                            SignupResponse, \
                            ProfileResponse
 
@@ -96,7 +97,7 @@ async def login_for_access_token(form_data:
 
 
 @app.post("/users/signup", tags=['USERS'], response_model=SignupResponse)
-def register_user(user: RegisterUser):
+def register_user(user: SignUpRequest):
     up = UserPersistance(user.username, user.password, user.address)
     registered = up.create_user()
     if registered:

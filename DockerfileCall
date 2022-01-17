@@ -1,0 +1,22 @@
+FROM ubuntu:bionic
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
+ENV USERNAME=euan
+ENV PASSWORD=password
+RUN \
+  apt-get update && \
+  apt-get install software-properties-common -y && \
+  add-apt-repository ppa:deadsnakes/ppa && \
+  apt-get update && \
+  apt-get install python3 -y
+RUN apt-get install cron vim curl -y 
+COPY call_api.sh /root
+RUN chmod 600 /root/call_api.sh
+COPY crontab_file /etc/cron.d/crontab_file
+RUN chmod 600 /etc/cron.d/crontab_file && \
+    service cron start && \
+    crontab /etc/cron.d/crontab_file
+RUN echo export USERNAME=$USERNAME >> /root/.profile && \
+    echo export PASSWORD=$PASSWORD >> /root/.profile && \
+    . /root/.profile
+CMD ["/usr/sbin/cron", "-f"]

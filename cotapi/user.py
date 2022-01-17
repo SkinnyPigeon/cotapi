@@ -28,7 +28,7 @@ class UserPersistance:
         self.username = username
         self.password = password
         self.address = address
-        self._client = MongoClient('localhost', 27017)
+        self._client = MongoClient('cotmongo', 27017)
         self._db = self._client['users']
         self._collection = self._db['login']
 
