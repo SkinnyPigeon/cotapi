@@ -130,3 +130,8 @@ class IndividualTransaction(BaseModel):
 
 class SavedTransactionsResponse(BaseModel):
     __root__: list[IndividualTransaction]
+
+
+class TokenResponse(BaseModel):
+    access_token: str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzdGV2ZSIsImV4cCI6MTY0MjQxMTUzM30.FiHoo_GhZfkZe5SPlB0_LDzhOkocgLS-a7kW27ImLog"
+    token_type: str = "bearer"

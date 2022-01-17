@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordRequestForm
 from datetime import timedelta
-from login import Token, authenticate_user, ACCESS_TOKEN_EXPIRE_MINUTES, \
+from login import authenticate_user, ACCESS_TOKEN_EXPIRE_MINUTES, \
                   create_access_token, get_current_active_user
 from user import RegisterUser, UserPersistance, User
 from transactions import Transactions
@@ -19,12 +19,13 @@ from request_fields import SavedTransactionRequestBody, \
                            BalanceResponse, \
                            UpdatedTransactionResponse, \
                            IndividualTransaction, \
-                           SavedTransactionsResponse
+                           SavedTransactionsResponse, \
+                           TokenResponse
 
 app = FastAPI()
 
 
-@app.post("/token", response_model=Token, tags=['TOKEN'])
+@app.post("/token", response_model=TokenResponse, tags=['TOKEN'])
 async def login_for_access_token(form_data:
                                  OAuth2PasswordRequestForm = Depends()):
     user = authenticate_user(form_data.username, form_data.password)
