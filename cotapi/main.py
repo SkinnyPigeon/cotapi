@@ -10,7 +10,10 @@ from transaction_functions import TransactionFunctions
 
 from request_fields import SavedTransactionRequestBody, \
                            XNumberOfTransactionsRequest, \
-                           TransactionByHashRequest
+                           TransactionByHashRequest, \
+                           IncomeRequest, \
+                           OutgoingsRequest, \
+                           BalanceRequest
 
 app = FastAPI()
 
@@ -94,3 +97,25 @@ def search_by_transaction_hash(body: TransactionByHashRequest,
     else:
         return {"error": "unable to find transaction with hash. \
                           please check it is correct", "tx_hash": body.tx_hash}
+
+
+@app.post("/balance/outgoings", tags=['BALANCE'])
+def view_outgoings(body: OutgoingsRequest,
+                   current_user: User = Depends(get_current_active_user)):
+    tf = TransactionFunctions(current_user.address, current_user.username)
+    return {"outgoings": tf.calculate_outgoings(body.start, body.end)}
+
+
+@app.post("/balance/income", tags=['BALANCE'])
+def view_income(body: IncomeRequest,
+                current_user: User = Depends(get_current_active_user)):
+    tf = TransactionFunctions(current_user.address, current_user.username)
+    return {"income": tf.calculate_income(body.start, body.end)}
+
+
+@app.post("/balance/", tags=['BALANCE'])
+def view_balance(body: BalanceRequest,
+                 current_user: User = Depends(get_current_active_user)):
+    tf = TransactionFunctions(current_user.address, current_user.username)
+    return {"balance": tf.calculate_balance(body.start, body.end),
+            "outgoings": tf.outgoings, "income": tf.income}

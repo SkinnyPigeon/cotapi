@@ -16,3 +16,18 @@ class XNumberOfTransactionsRequest(BaseModel):
 
 class TransactionByHashRequest(BaseModel):
     tx_hash: str = "154859b2f3b07e901e17070a034a15fa3dba0cf1109dfd0680b0ac1d43b4caea"
+
+
+class OutgoingsRequest(BaseModel):
+    start: Optional[datetime] = datetime(1970, 1, 1)
+    end: Optional[datetime] = datetime.now()
+
+
+class IncomeRequest(BaseModel):
+    start: Optional[datetime] = datetime(1970, 1, 1)
+    end: Optional[datetime] = datetime.now()
+
+
+class BalanceRequest(BaseModel):
+    start: Optional[datetime] = datetime(1970, 1, 1)
+    end: Optional[datetime] = datetime.now()
