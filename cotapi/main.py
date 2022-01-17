@@ -20,7 +20,9 @@ from request_fields import SavedTransactionRequestBody, \
                            UpdatedTransactionResponse, \
                            IndividualTransaction, \
                            SavedTransactionsResponse, \
-                           TokenResponse
+                           TokenResponse, \
+                           SignupResponse, \
+                           ProfileResponse
 
 app = FastAPI()
 
@@ -42,7 +44,7 @@ async def login_for_access_token(form_data:
     return {"access_token": access_token, "token_type": "bearer"}
 
 
-@app.post("/users/signup", tags=['USERS'])
+@app.post("/users/signup", tags=['USERS'], response_model=SignupResponse)
 def register_user(user: RegisterUser):
     up = UserPersistance(user.username, user.password, user.address)
     registered = up.create_user()
@@ -52,7 +54,7 @@ def register_user(user: RegisterUser):
         return {"message": f"{user.username} already exists in database"}
 
 
-@app.get("/users/profile", response_model=User, tags=['USERS'])
+@app.get("/users/profile", response_model=ProfileResponse, tags=['USERS'])
 async def read_my_details(current_user:
                           User = Depends(get_current_active_user)):
     return current_user

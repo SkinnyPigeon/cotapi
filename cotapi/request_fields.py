@@ -135,3 +135,13 @@ class SavedTransactionsResponse(BaseModel):
 class TokenResponse(BaseModel):
     access_token: str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJzdGV2ZSIsImV4cCI6MTY0MjQxMTUzM30.FiHoo_GhZfkZe5SPlB0_LDzhOkocgLS-a7kW27ImLog"
     token_type: str = "bearer"
+
+
+class SignupResponse(BaseModel):
+    message: str = "<username> successfully registered"
+
+
+class ProfileResponse(BaseModel):
+    username: str = "<username>"
+    distabled: bool = False
+    address: str = "51dbd2feecb8c9e3b5c88129da88156d738d00d57bf4524cc780221c4e414ffc9372b00ad7d75679032d928776b044d40d5febb783d8ac9b241b7c0b1cad77de9b699c23"
